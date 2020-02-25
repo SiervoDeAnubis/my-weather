@@ -1,35 +1,15 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { actions } from "./redux/store"
 
 class TodoApp extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      inputText: "",
-      todos: [
-        {
-          item: "item1",
-          done: false
-        },
-        {
-          item: "item2",
-          done: false
-        },
-        {
-          item: "item3",
-          done: false
-        }
-      ]
-    };
-  }
-
   handleSubmit = event => {
     event.preventDefault();
-    const inputText = this.state.inputText;
+    const inputText = this.props.inputText;
     this.setState({
       inputText: "",
       todos: [
-        ...this.state.todos,
+        ...this.props.todos,
         {
           item: inputText,
           done: false
@@ -38,24 +18,17 @@ class TodoApp extends Component {
     });
   };
 
-  handleChangeNewItem = event => {
-    const inputText = event.target.value;
-    this.setState({
-      inputText
-    });
-  };
-
   handleToggleCheckbox = (event, index) => {
-    const todos = [...this.state.todos];
+    const todos = [...this.props.todos];
     todos[index].done = event.target.checked;
     this.setState({
-      ...this.state,
+      ...this.props,
       todos
     });
   };
 
   handleDeleteTodo = index => {
-    const todos = [...this.state.todos];
+    const todos = [...this.props.todos];
     todos.splice(index, 1);
     this.setState({
       todos
@@ -63,14 +36,14 @@ class TodoApp extends Component {
   };
 
   handleAllDone = () => {
-    const todos = this.state.todos.map(todo => ({ ...todo, done: true }));
+    const todos = this.props.todos.map(todo => ({ ...todo, done: true }));
     this.setState({
       todos
     });
   };
 
   render() {
-    const { inputText, todos } = this.state;
+    const { inputText, todos, onHandleNewChange } = this.props;
 
     return (
       <div className="TodoApp">
@@ -80,7 +53,7 @@ class TodoApp extends Component {
           <input
             type="text"
             value={inputText}
-            onChange={event => this.handleChangeNewItem(event)}
+            onChange={event => onHandleNewChange(event.target.value)}
           />
           <button>Add New Item</button>
         </form>
@@ -111,4 +84,19 @@ class TodoApp extends Component {
   }
 }
 
-export default TodoApp;
+const mapDispatchToProps = (dispatch, {handleNewChange} = actions) => {
+  return {
+    onHandleNewChange(newInput) {
+      dispatch(handleNewChange(newInput));
+    }
+  }
+}
+
+const mapStateToProps = state => {
+  return {
+    inputText: state.inputText,
+    todos: state.todos
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TodoApp);
