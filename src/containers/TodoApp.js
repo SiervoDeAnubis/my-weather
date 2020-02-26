@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { actions } from "./redux/store"
+import { actions } from "../redux/store";
 
 class TodoApp extends Component {
   handleSubmit = event => {
@@ -84,19 +84,19 @@ class TodoApp extends Component {
   }
 }
 
-const mapDispatchToProps = (dispatch, {handleNewChange} = actions) => {
+const mapDispatchToProps = (dispatch, { handleNewChange } = actions) => {
   return {
     onHandleNewChange(newInput) {
       dispatch(handleNewChange(newInput));
     }
-  }
-}
+  };
+};
 
 const mapStateToProps = state => {
   return {
     inputText: state.inputText,
     todos: state.todos
-  }
-}
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(TodoApp);
