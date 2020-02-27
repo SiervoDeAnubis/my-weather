@@ -5,45 +5,19 @@ import { actions } from "../redux/store";
 class TodoApp extends Component {
   handleSubmit = event => {
     event.preventDefault();
-    const inputText = this.props.inputText;
-    this.setState({
-      inputText: "",
-      todos: [
-        ...this.props.todos,
-        {
-          item: inputText,
-          done: false
-        }
-      ]
-    });
-  };
-
-  handleToggleCheckbox = (event, index) => {
-    const todos = [...this.props.todos];
-    todos[index].done = event.target.checked;
-    this.setState({
-      ...this.props,
-      todos
-    });
-  };
-
-  handleDeleteTodo = index => {
-    const todos = [...this.props.todos];
-    todos.splice(index, 1);
-    this.setState({
-      todos
-    });
-  };
-
-  handleAllDone = () => {
-    const todos = this.props.todos.map(todo => ({ ...todo, done: true }));
-    this.setState({
-      todos
-    });
+    this.props.onHandleTodoForm();
+    this.props.onHandleNewChange("");
   };
 
   render() {
-    const { inputText, todos, onHandleNewChange } = this.props;
+    const {
+      inputText,
+      todos,
+      onHandleNewChange,
+      onHandleToggleCheckboxAll,
+      onHandleTodoDelete,
+      onHandleToggleTodo
+    } = this.props;
 
     return (
       <div className="TodoApp">
@@ -57,7 +31,7 @@ class TodoApp extends Component {
           />
           <button>Add New Item</button>
         </form>
-        <button onClick={() => this.handleAllDone()}>All Done</button>
+        <button onClick={() => onHandleToggleCheckboxAll()}>All Done</button>
         <div className="TodoList">
           {todos.length === 0 ? (
             <span>No Items</span>
@@ -67,11 +41,13 @@ class TodoApp extends Component {
                 <li key={index} className={done ? "done" : ""}>
                   <input
                     type="checkbox"
-                    onChange={event => this.handleToggleCheckbox(event, index)}
+                    onChange={event =>
+                      onHandleToggleTodo({ index, done: event.target.checked })
+                    }
                     checked={done}
                   />
                   {item}
-                  <button onClick={() => this.handleDeleteTodo(index)}>
+                  <button onClick={() => onHandleTodoDelete(index)}>
                     Delete todo
                   </button>
                 </li>
@@ -84,10 +60,31 @@ class TodoApp extends Component {
   }
 }
 
-const mapDispatchToProps = (dispatch, { handleNewChange } = actions) => {
+const mapDispatchToProps = (
+  dispatch,
+  {
+    handleNewChange,
+    handleTodoForm,
+    handleToggleCheckboxAll,
+    handleTodoDelete,
+    handleToggleTodo
+  } = actions
+) => {
   return {
     onHandleNewChange(newInput) {
       dispatch(handleNewChange(newInput));
+    },
+    onHandleTodoForm() {
+      dispatch(handleTodoForm());
+    },
+    onHandleToggleCheckboxAll() {
+      dispatch(handleToggleCheckboxAll());
+    },
+    onHandleTodoDelete(index) {
+      dispatch(handleTodoDelete(index));
+    },
+    onHandleToggleTodo(todo) {
+      dispatch(handleToggleTodo(todo));
     }
   };
 };
