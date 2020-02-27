@@ -22,7 +22,7 @@ render(
     <Router>
       <Home path="/" />
       <App path="/todo" />
-      <SearchApp path="/seach" />
+      <SearchApp path="/search" />
     </Router>
   </Provider>,
   document.getElementById("root")
