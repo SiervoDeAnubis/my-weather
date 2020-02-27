@@ -4,8 +4,11 @@ import { Provider } from "react-redux";
 import { createStore, applyMiddleware, compose } from "redux";
 import { logger } from "redux-logger";
 import { reducer } from "./redux/store";
+import { Router } from "@reach/router";
 import "./index.css";
+import Home from "./Home";
 import App from "./App";
+import SearchApp from "./SearchApp";
 
 const composeEnhaced = compose(
   applyMiddleware(logger),
@@ -16,7 +19,11 @@ const store = createStore(reducer, composeEnhaced);
 
 render(
   <Provider store={store}>
-    <App />
+    <Router>
+      <Home path="/" />
+      <App path="/todo" />
+      <SearchApp path="/seach" />
+    </Router>
   </Provider>,
   document.getElementById("root")
 );
