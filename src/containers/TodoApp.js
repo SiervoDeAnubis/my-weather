@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { actions } from "../redux/store";
+import TodoForm from "../components/TodoForm";
+import TodoList from "../components/TodoList";
 
 class TodoApp extends Component {
   handleSubmit = event => {
@@ -22,37 +24,21 @@ class TodoApp extends Component {
     return (
       <div className="TodoApp">
         <h3>Todo App</h3>
-        <form onSubmit={event => this.handleSubmit(event)}>
-          <label htmlFor="new_item">New item : </label>
-          <input
-            type="text"
-            value={inputText}
-            onChange={event => onHandleNewChange(event.target.value)}
-          />
-          <button>Add New Item</button>
-        </form>
+        <TodoForm
+          inputText={inputText}
+          handleSubmit={this.handleSubmit}
+          onHandleNewChange={onHandleNewChange}
+        />
         <button onClick={() => onHandleToggleCheckboxAll()}>All Done</button>
         <div className="TodoList">
           {todos.length === 0 ? (
             <span>No Items</span>
           ) : (
-            <ul>
-              {todos.map(({ item, done }, index) => (
-                <li key={index} className={done ? "done" : ""}>
-                  <input
-                    type="checkbox"
-                    onChange={event =>
-                      onHandleToggleTodo({ index, done: event.target.checked })
-                    }
-                    checked={done}
-                  />
-                  {item}
-                  <button onClick={() => onHandleTodoDelete(index)}>
-                    Delete todo
-                  </button>
-                </li>
-              ))}
-            </ul>
+            <TodoList
+              todos={todos}
+              onHandleToggleTodo={onHandleToggleTodo}
+              onHandleTodoDelete={onHandleTodoDelete}
+            />
           )}
         </div>
       </div>
