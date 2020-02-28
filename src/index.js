@@ -7,8 +7,8 @@ import { reducer } from "./redux/store";
 import { Router } from "@reach/router";
 import "./index.css";
 import Home from "./Home";
-import App from "./App";
-import SearchApp from "./SearchApp";
+import TodoApp from "./containers/TodoApp";
+import SearchParams from "./SearchApp";
 
 const composeEnhaced = compose(
   applyMiddleware(logger),
@@ -21,8 +21,8 @@ render(
   <Provider store={store}>
     <Router>
       <Home path="/" />
-      <App path="/todo" />
-      <SearchApp path="/search" />
+      <TodoApp path="/todo" />
+      <SearchParams path="/search" />
     </Router>
   </Provider>,
   document.getElementById("root")

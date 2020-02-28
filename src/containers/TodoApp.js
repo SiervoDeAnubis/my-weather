@@ -23,6 +23,7 @@ class TodoApp extends Component {
 
     return (
       <div className="TodoApp">
+        <h1>Hello World</h1>
         <h3>Todo App</h3>
         <TodoForm
           inputText={inputText}

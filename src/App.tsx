@@ -1,12 +1,10 @@
 import React from "react";
-import TodoApp from "./containers/TodoApp";
 import "./App.css";
 
-const App = () => (
-  <div className="App">
+const TodoApp = () => (
+  <div className="TodoApp">
     <h1>Hello World, Todo App</h1>
-    <TodoApp />
   </div>
 );
 
-export default App;
+export default TodoApp;
