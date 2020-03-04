@@ -8,7 +8,7 @@ import { Router } from "@reach/router";
 import "./index.css";
 import Home from "./Home";
 import TodoApp from "./containers/TodoApp";
-import SearchParams from "./SearchApp";
+import SearchApp from "./containers/SearchApp";
 
 const composeEnhaced = compose(
   applyMiddleware(logger),
@@ -22,7 +22,7 @@ render(
     <Router>
       <Home path="/" />
       <TodoApp path="/todo" />
-      <SearchParams path="/search" />
+      <SearchApp path="/search" />
     </Router>
   </Provider>,
   document.getElementById("root")
