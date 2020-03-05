@@ -9,6 +9,7 @@ import "./index.css";
 import Home from "./Home";
 import TodoApp from "./containers/TodoApp";
 import SearchApp from "./containers/SearchApp";
+import Details from "./components/Details";
 
 const composeEnhaced = compose(
   applyMiddleware(logger),
@@ -23,6 +24,7 @@ render(
       <Home path="/" />
       <TodoApp path="/todo" />
       <SearchApp path="/search" />
+      <Details path="/search/details/:id" />
     </Router>
   </Provider>,
   document.getElementById("root")
