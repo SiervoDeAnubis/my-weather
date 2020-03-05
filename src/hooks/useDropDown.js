@@ -3,8 +3,8 @@ import React, { useState } from "react";
 const useDropDown = (label, defaultState, options) => {
   const [state, updateState] = useState(defaultState);
   const id = `use-dropdown-${label.replace(" ", "").toLowerCase()}`;
-  const Dropdown = () => {
-    <label id={id}>
+  const Dropdown = () => (
+    <label htmlFor={id}>
       {label}
       <select
         id={id}
@@ -20,10 +20,10 @@ const useDropDown = (label, defaultState, options) => {
           </option>
         ))}
       </select>
-    </label>;
-  };
+    </label>
+  );
 
-  return [state, Dropdown];
+  return [state, Dropdown, updateState];
 };
 
 export default useDropDown;
